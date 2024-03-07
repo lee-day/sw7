@@ -1,14 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8">
+<title>임형준</title>
 </head>
 <body>
-    <h1>안녕하세요</h1>
-    <h2>dddddd</h2>
-    <h3>오후 1시57분 임형준 작성</h3>
-    <p>아니 왜 안 되 냐 고 시 ㅇ라ㅠㅝㅑㄴㅇ로ㅕㅑㅁㅇㄹㄴ햐ㅕㅛ8ㄴㅁㅇㄹ호ㅑㅕ</p>
+<form method="post" action="Form2.jsp">
+<input type="text" name="bookname">
+<br><br>
+<input type="radio" name="r" value="로맨스">로맨스
+<input type="radio" name="r" value="액션">액션
+<input type="radio" name="r" value="서사">서사
+<input type="radio" name="r" value="역사">역사
+<input type="radio" name="r" value="수필">수필
+<br><br>
+<input type="text" name="bookmade">
+<br><br>
+<input type="number" name="num">
+<br><br>
+<input type="checkbox" vlaue="책" name="ch">책
+<input type="checkbox" value="이북" name="ch">이북
+<input type="checkbox" value="usb" name="ch">USB
+<br><br>
+<select name="buy">
+	<option>1</option>
+	<option>2</option>
+	<option>3</option>
+	<option>4</option>
+	<option>5</option>
+</select>
+<br><br>
+<input type="submit" value="전송">
+</form>
 </body>
 </html>
