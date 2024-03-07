@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>임형준</title>
+<title>HTML 테스트</title>
 </head>
 <body>
 <form method="post" action="Form2.jsp">
@@ -31,6 +31,10 @@
 </select>
 <br><br>
 <input type="submit" value="전송">
+<input type="submit" value="전송">
+<input type="submit" value="전송">
+<input type="submit" value="전송">
+
 </form>
 </body>
 </html>
