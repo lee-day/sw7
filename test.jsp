@@ -31,7 +31,8 @@
 </select>
 <br><br>
 <input type="submit" value="전송">
-
+<input type="submit" value="전송">
+<input type="submit" value="전송">
 </form>
 </body>
 </html>
