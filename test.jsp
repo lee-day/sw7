@@ -30,7 +30,7 @@
 	<option>5</option>
 </select>
 <br><br>
-<input type="submit" value="전송">
+<input type="submit" value="전송">kkk
 <input type="submit" value="전송">
 <input type="submit" value="전송">
 <input type="submit" value="전송">
