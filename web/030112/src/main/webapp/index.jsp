@@ -10,7 +10,9 @@
 <body>
 <header>
 	<h2>과정평가형 필기 문제은행</h2>
-	<a href="login.jsp" target="section_page">[로그인]</a>
+	<input type='text' name='id' size='5'>
+	<input type='text' name='pass' size='5'>
+	<input type='submit' value='로그인'>
 	<a href="join.jsp" target="section_page">[회원가입]</a>
 </header>
 <nav>
