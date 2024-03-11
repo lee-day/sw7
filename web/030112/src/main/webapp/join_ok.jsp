@@ -55,6 +55,54 @@ SQL> desc tb_member;
  NUM                                       NOT NULL NUMBER(2)
 
 SQL>
+
+
+입력 insert into 테이블명(입력할 곳) values(입력할 내용)
+insert into tb_member values('1','1111','홍길동','7');
+insert into tb_member(ID,PASS,NAME,NUM) values('2','1111','임걱정','7');
+insert into tb_member(PASS,ID,NAME,NUM) values('1111','3','유관순','7');
+
+검색
+select 볼 것 form 테이블명 where 조건
+select * from tb_member;
+select NAME from tb_member;
+select NAME,NUM  from tb_member;
+
+select NAME,NUM  from tb_member where name like '%홍%';
+
+select 
+	NAME as "이름",
+	NUM as "기수"  
+from 
+	tb_member 
+where 
+	name like '%홍%';
+
+
+삭제
+
+delete 
+from 
+	tb_member
+where 
+	id=3;
+	
+수정
+update
+	tb_member
+set
+	name='유느님'
+where 
+	id=3;
+	
+	
+char `char` 'char' "char"
+1     2      3      4 
+예약어 변수     벨류    벨류
+
+
   -->
+ 
+ 
  
  
