@@ -9,11 +9,13 @@
 </head>
 <body>
 <header>
+<form name='form_login' action='login_ok.jsp' method='post'>
 	<h2>과정평가형 필기 문제은행</h2>
 	<input type='text' name='id' size='5'>
 	<input type='text' name='pass' size='5'>
 	<input type='submit' value='로그인'>
 	<a href="join.jsp" target="section_page">[회원가입]</a>
+</form>
 </header>
 <nav>
 	<a href="do_test.jsp" target="section_page">문제풀기</a>
