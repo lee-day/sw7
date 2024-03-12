@@ -1,17 +1,39 @@
+<%@ page import="java.sql.*" %>
+<%@ page import="DBPKG.Utill"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
- 
- <%
- 	request.setCharacterEncoding("UTF-8");
+<%
+	request.setCharacterEncoding("UTF-8");
  	String id=request.getParameter("id");
  	String pass=request.getParameter("pass");
  	String name=request.getParameter("name");
  	String num=request.getParameter("num");
  	String mode=request.getParameter("mode");
- 
+ 	Connection conn=null;
+ 	Statement stmt=null;
+ 	String callback = ""; 	
+ 	
+ 	
  	out.println(id);
- 
+ 	try{
+ 		out.println(mode);
+ 		conn = Utill.getConnection(); 										// 데이터베이스 연결을 설정합니다.
+	    stmt = conn.createStatement(); 										// SQL 명령어를 실행하기 위한 Statement 객체를 생성합니다.
+	    String sql = ""; 	
+		    	sql=" insert into tb_member values("
+		    			+"'"+id+"',"
+		    			+"'"+pass+"',"
+		    			+"'"+name+"',"
+		    			+num+")";
+		    	
+			    out.println(sql);	
+			    stmt.executeUpdate(sql);										// SQL 쿼리를 실행합니다.
+		      callback ="main.jsp";
+ 		
+ 	}catch(Exception e) {
+	    e.printStackTrace();												// 예외가 발생하면 스택 트레이스를 출력합니다.
+	}
+	response.sendRedirect(callback);	
  	 
  	
  %>
