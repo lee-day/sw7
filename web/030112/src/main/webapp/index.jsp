@@ -15,6 +15,7 @@
 	<input type='text' name='pass' size='5'>
 	<input type='submit' value='로그인'>
 	<a href="join.jsp" target="section_page">[회원가입]</a>
+	<a href="member_list.jsp" target="section_page">[회원정보]</a>
 </form>
 </header>
 <nav>
