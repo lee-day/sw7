@@ -14,13 +14,18 @@
 <% if (session != null && session.getAttribute("userName") != null) {
 	// 세션에서 사용자 이름을 가져옵니다.
     String userName = (String) session.getAttribute("userName");
+    String userId = (String) session.getAttribute("userId");
     // 환영 메시지를 표시합니다.
     out.println(userName + "님, 환영합니다.");
 %>
 	<a href="member_list.jsp" target="section_page">[회원정보]</a>    
+	<input type='hidden' name='mode' value='logout'>
+	<input type='hidden' name='id' size='<%=userId%>'>
+	<input type='submit' value='로그아웃'>
 <% }else{ %>	
 	<input type='text' name='id' size='5'>
 	<input type='text' name='pass' size='5'>
+	<input type='hidden' name='mode' value='login'>
 	<input type='submit' value='로그인'>
 	<a href="join.jsp" target="section_page">[회원가입]</a>
 <%} %>	
