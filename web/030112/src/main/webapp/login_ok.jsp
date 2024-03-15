@@ -29,8 +29,7 @@
 	    			+ "and pass='"+pass+"'";
 				ResultSet rs = stmt.executeQuery(sql);
 				out.println(sql);
-				
-					if(rs.next()){
+				if(rs.next()){
 					out.println(rs.getString("name"));
 					out.println("님 로그인이 되었습니다.");
 					String name = rs.getString("name");

@@ -31,7 +31,7 @@
 		ResultSet rs = stmt.executeQuery(sql);
 		while(rs.next()){
 			out.println(rs.getString("name"));
-			out.println(rs.getString("pass"));
+			out.println(rs.getString("id"));
 			out.println("<br>");
 		}
  	}catch(Exception e) {
