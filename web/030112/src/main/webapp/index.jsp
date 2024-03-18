@@ -35,7 +35,9 @@
 </header>
 <nav>
 	<a href="do_test.jsp" target="section_page">문제풀기</a>
+<% if (session != null && session.getAttribute("userName") != null) {%>
 	<a href="make_test.jsp" target="section_page">문제등록하기</a>
+<%} %>	
 	<a href="point_test.jsp" target="section_page">점수관리</a>
 	<a href="main.jsp" target="section_page">홈으로</a>
 </nav>

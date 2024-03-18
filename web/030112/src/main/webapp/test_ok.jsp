@@ -54,7 +54,19 @@
 	    			+"'"+tb_ncs+"',"
 	    			+"'"+userId+ "')";
 		    out.println(sql);	
-		    //stmt.executeUpdate(sql);	
+		    stmt.executeUpdate(sql);
+		    if(dab_1 == null || dab_1.isEmpty()){
+		    	dab_1="No";
+		    }
+		    if(dab_2 == null || dab_2.isEmpty()){
+		    	dab_2="No";
+		    }
+		    if(dab_3 == null || dab_3.isEmpty()){
+		    	dab_3="No";
+		    }
+		    if(dab_4 == null || dab_4.isEmpty()){
+		    	dab_4="No";
+		    }
 		    
 		    //보기1
 		    sql_count=" select " 
@@ -70,7 +82,7 @@
 	    			+"'"+tb_test_sub_1+"',"
 	    			+"'"+dab_1+"')";
 		    out.println(sql);	
-		    //stmt.executeUpdate(sql);	
+		    stmt.executeUpdate(sql);	
 		    
 		    //보기2
 		    sql_count=" select " 
@@ -86,7 +98,7 @@
 	    			+"'"+tb_test_sub_2+"',"
 	    			+"'"+dab_2+"')";
 		    out.println(sql);	
-		    //stmt.executeUpdate(sql);	
+		    stmt.executeUpdate(sql);	
 		    
 		    //보기3
 		    sql_count=" select " 
@@ -102,7 +114,7 @@
 	    			+"'"+tb_test_sub_3+"',"
 	    			+"'"+dab_3+"')";
 		    out.println(sql);	
-		    //stmt.executeUpdate(sql);	
+		    stmt.executeUpdate(sql);	
 		    
 		    
 		    //보기4
@@ -119,14 +131,14 @@
 	    			+"'"+tb_test_sub_4+"',"
 	    			+"'"+dab_4+"')";
 		    out.println(sql);	
-		    //stmt.executeUpdate(sql);	
+		    stmt.executeUpdate(sql);	
 		    
 		break;
     	}
 }catch(Exception e) {
 e.printStackTrace();												// 예외가 발생하면 스택 트레이스를 출력합니다.
 }
-	//response.sendRedirect("index.jsp");	
+	response.sendRedirect("main.jsp");	
  	 
  	
  %>
