@@ -18,7 +18,7 @@
  	String image_link=request.getParameter("image_link");	
  	String hint=request.getParameter("hint");	
  	String tb_ncs=request.getParameter("tb_ncs");
- 	
+ 	String image_data="";
  	Connection conn=null;
  	Statement stmt=null;
  	String callback = ""; 
@@ -46,7 +46,8 @@
 	    			+"'"+image_link+"',"
 	    			+"'"+hint+"',"
 	    			+"'"+tb_ncs+"',"
-	    			+"'"+userId+ "')";
+	    			+"'"+userId+"',"
+	    	    	+"'"+image_data+ "')";
 		    out.println(sql);	
 		    stmt.executeUpdate(sql);
 		    if(dab_1 == null || dab_1.isEmpty()){

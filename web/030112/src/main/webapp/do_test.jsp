@@ -2,8 +2,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>문제 풀기2222</title>
-      <script>
+    <title>문제 풀기</title>
+    <script>
         // 정답 확인 함수
         function checkAnswer(isCorrect, elementId) {
             let message = isCorrect === 'Yes' ? '정답입니다!' : '틀렸습니다.';
@@ -27,8 +27,6 @@
     </tr>
   </thead>
   <tbody>
-    <!-- 여기에 서버에서 가져온 데이터를 동적으로 삽입할 부분 -->
-    <!-- 데이터베이스에서 가져온 문제 목록을 표시합니다. -->
     <%@ page import="java.sql.*" %>
     <%@ page import="DBPKG.Utill" %>
     <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -37,15 +35,16 @@
         Statement stmt = null;
         ResultSet rs = null;
         PreparedStatement pstmt = null;
+        String prevSeq = ""; // 이전 문제의 seq 값을 저장하기 위한 변수
         try {
             conn = Utill.getConnection(); // 데이터베이스 연결을 설정합니다.
-            stmt = conn.createStatement(); // SQL 명령어를 실행하기 위한 Statement 객체를 생성합니다.
-            String sql = "SELECT tb_member.name as 출제자, " +
-                            "tb_test.name AS 문제, " +
-                            "tb_test.hint AS 힌트, " +
-                            "tb_test_sub.name AS 보기, " +
-                            "tb_test_sub.dab AS 정답여부, " +
-                            "tb_ncs.name AS 학습모듈 " +
+            String sql = "SELECT tb_test.seq AS seq, " +
+                         "tb_member.name as 출제자, " +
+                         "tb_test.name AS 문제, " +
+                         "tb_test.hint AS 힌트, " +
+                         "tb_test_sub.name AS 보기, " +
+                         "tb_test_sub.dab AS 정답여부, " +
+                         "tb_ncs.name AS 학습모듈 " +
                          "FROM tb_test " +
                          "JOIN tb_test_sub ON tb_test.seq = tb_test_sub.seq_tb_test " +
                          "JOIN tb_member ON tb_test.id_tb_member = tb_member.id " +
@@ -55,18 +54,31 @@
             rs = pstmt.executeQuery();
 
             while(rs.next()) {
+                String currentSeq = rs.getString("seq");
+                if (!currentSeq.equals(prevSeq)) {
+                    // seq 값이 변경되었을 때만 문제 정보를 출력
     %>
                 <tr>
                     <td><%= rs.getString("출제자") %></td>
                     <td><%= rs.getString("문제") %></td>
                     <td><%= rs.getString("힌트") %></td>
-                    <td><%= rs.getString("보기") %></td>
-                    <td>
-                        <button onclick="checkAnswer('<%= rs.getString("정답여부") %>')">정답 확인</button>
-                    </td>
+                    <td colspan="2"><!-- 보기와 정답여부는 아래에 출력됩니다. --></td>
                     <td><%= rs.getString("학습모듈") %></td>
                 </tr>
     <%
+                }
+                // 보기와 정답 여부 출력
+    %>
+                <tr>
+                    <td colspan="3"><!-- 문제 정보 생략 --></td>
+                    <td colspan="3"><%= rs.getString("보기") %></td>
+                    <td>
+                        <button onclick="checkAnswer('<%= rs.getString("정답여부") %>')">정답 확인</button>
+                    </td>
+                    <td><!-- 학습모듈 정보 생략 --></td>
+                </tr>
+    <%
+                prevSeq = currentSeq; // 이전 seq 값을 현재로 업데이트
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,8 +89,4 @@
         }
     %>
   </tbody>
-</table>
-
-</body>
-</html>
-
+</

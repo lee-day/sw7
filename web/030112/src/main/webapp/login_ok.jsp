@@ -29,6 +29,7 @@
 	    			+ "and pass='"+pass+"'";
 				ResultSet rs = stmt.executeQuery(sql);
 				out.println(sql);
+			
 				if(rs.next()){
 					out.println(rs.getString("name"));
 					out.println("님 로그인이 되었습니다.");
@@ -39,7 +40,7 @@
 				    // 로그인 성공 페이지로 리다이렉트 또는 성공 메시지 출력 등의 로직을 추가합니다.
 				}else{
 					out.println("아이디나 패스워드가 일치하지 않거나 없습니다.");
-				}
+				} 
 			break;
     		case "logout":
     			// 세션을 무효화합니다. 이로써 세션에 저장된 모든 데이터가 삭제됩니다.
@@ -49,7 +50,8 @@
 }catch(Exception e) {
 e.printStackTrace();												// 예외가 발생하면 스택 트레이스를 출력합니다.
 }
-	response.sendRedirect("index.jsp");	
+	
+ 	response.sendRedirect("index.jsp");	
  	 
  	
  %>

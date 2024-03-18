@@ -15,8 +15,13 @@ JOIN
 JOIN    
     tb_member on tb_test.id_tb_member = tb_member.id;
 
+ 
     
-select * from tb_test;
+    
+SELECT 
+	* 
+FROM 
+	tb_test;
 
 
 //문제 관련 테이블을 연결해서 답(번호를 랜덤하게 섞어보여주기)
@@ -39,7 +44,7 @@ ORDER BY
 	tb_test.seq asc,
 	DBMS_RANDOM.VALUE;
     
-    
+select *from tb_ncs    
     
 /*
   Create table tb_member(
@@ -70,6 +75,19 @@ ORDER BY
   	constraint tb_ncs_pk Primary key(seq)
  );
  
+  SEQ NAME        FILE_LINK         
+ --- ----------- ----------------- 
+   1 화면구현        https://ncs.go.kr
+   2 프로그램언어활용    https://ncs.go.kr
+   3 프로그램언어응용    https://ncs.go.kr
+   4 개발자환경구축     https://ncs.go.kr
+   5 애플리케이션배포    https://ncs.go.kr
+   6 응용SW기초기술활용  https://ncs.go.kr
+   7 SQL활용       https://ncs.go.kr
+   8 애플리케이션테스트수행 https://ncs.go.kr
+   9 UI테스트       https://ncs.go.kr
+
+ 
   
 CREATE TABLE tb_test_sub(
     seq number(5) NOT NULL,
@@ -80,6 +98,7 @@ CREATE TABLE tb_test_sub(
 ALTER TABLE tb_test_sub ADD CONSTRAINT tb_test_sub_pk PRIMARY KEY(seq);
 ALTER TABLE tb_test_sub ADD CONSTRAINT dab_check CHECK (dab IN ('Yes', 'No'));
  
+
 
  
  
