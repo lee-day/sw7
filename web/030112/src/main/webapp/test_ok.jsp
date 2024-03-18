@@ -19,17 +19,11 @@
  	String hint=request.getParameter("hint");	
  	String tb_ncs=request.getParameter("tb_ncs");
  	
- 	out.println(tb_test_name+"<br>");
- 	out.println(tb_test_sub_1+"<br>");
- 	out.println(dab_1+"<br>");
- 	out.println(image_link+"<br>");
- 	out.println(hint+"<br>");
- 	out.println(tb_ncs+"<br>");
- 	
- 	
  	Connection conn=null;
  	Statement stmt=null;
- 	String callback = ""; 	
+ 	String callback = ""; 
+
+
  	try{
  		conn = Utill.getConnection(); 										// 데이터베이스 연결을 설정합니다.
 	    stmt = conn.createStatement(); 		// SQL 명령어를 실행하기 위한 Statement 객체를 생성합니다.

@@ -50,7 +50,7 @@
 		</tr>
 		<tr>
 			<td>이미지</td>
-			<td><input type='file' name='image_link'></td>
+			<td><input type='file' name='image_link' enctype="multipart/form-data"></td>
 		</tr>
 		<tr>
 			<td>흰트</td>

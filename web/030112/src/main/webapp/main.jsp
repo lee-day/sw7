@@ -7,6 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-메인화면
+<dependency>
+    <groupId>commons-fileupload</groupId>
+    <artifactId>commons-fileupload</artifactId>
+    <version>1.4</version> <!-- 현재 버전 확인 필요 -->
+</dependency>
 </body>
 </html>
