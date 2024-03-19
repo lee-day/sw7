@@ -64,6 +64,8 @@ select *from tb_ncs
 	hint varchar2(255) NOT NULL,
 	seq_tb_ncs number(5) NOT NULL,
 	id_tb_member varchar2(20) NOT NULL,
+	image_data BLOB,
+	questionType number(1) NOT NULL,
  	constraint tb_test_pk Primary key(seq)
  );
  

@@ -10,48 +10,124 @@
 <link rel="stylesheet" type="text/css" href="style.css">
 <script>
 	function validateForm(){
+		var questionType = document.getElementById('questionType').value;
 		var tb_test_name= document.getElementById('tb_test_name').value;
-		var tb_test_sub_1= document.getElementById('tb_test_sub_1').value;
-		var tb_test_sub_2= document.getElementById('tb_test_sub_2').value;
-		var tb_test_sub_3= document.getElementById('tb_test_sub_3').value;
-		var tb_test_sub_4= document.getElementById('tb_test_sub_4').value;
-
 		if(tb_test_name==""){
 			alert("문제가 입력되어있지 않습니다.");
 			return false;
 		}
-		if(tb_test_sub_1=="" || tb_test_sub_2=="" || tb_test_sub_3=="" || tb_test_sub_4=="" ){
-			alert("보기가 입력되어있지 않습니다.");
-			return false;
+		if(questionType=='1'){
+			var tb_test_sub_1= document.getElementById('tb_test_sub_1').value;
+			var tb_test_sub_2= document.getElementById('tb_test_sub_2').value;
+			var tb_test_sub_3= document.getElementById('tb_test_sub_3').value;
+			var tb_test_sub_4= document.getElementById('tb_test_sub_4').value;
+			if(tb_test_sub_1=="" || tb_test_sub_2=="" || tb_test_sub_3=="" || tb_test_sub_4=="" ){
+				alert("보기가 입력되어있지 않습니다.");
+				return false;
+			}
+		}else if(questionType=='2'){
+		    var trueFalseAnswerSelected = document.querySelector('input[name="trueFalseAnswer"]:checked');
+		    if (!trueFalseAnswerSelected) {
+		        alert("o또는 x가 선택되지 않았습니다.");
+		        return false;
+		    }
+		}else if(questionType=='3'){
+			var shortAnswer= document.getElementById('shortAnswer').value;
+			if(shortAnswer==""){
+				alert("핵심 단어가 입력되지 않았습니다.");
+				return false;
+			}
 		}
 		alert("문제 등록이 완료되었습니다.");
 		return true;
 		
 	}
+	function updateFormFields() {
+		var questionType = document.getElementById('questionType').value;
+		var multipleChoiceFields = document.getElementById('multipleChoiceFields');
+		var trueFalseFields = document.getElementById('trueFalseFields');
+		var shortAnswerFields = document.getElementById('shortAnswerFields');
+
+		// 모든 입력 필드를 숨깁니다.
+		multipleChoiceFields.style.display = 'none';
+		trueFalseFields.style.display = 'none';
+		shortAnswerFields.style.display = 'none';
+
+		// 선택된 문제 유형에 따라 해당 입력 필드를 표시합니다.
+		if (questionType === '1') {
+			multipleChoiceFields.style.display = 'block';
+		} else if (questionType === '2') {
+			trueFalseFields.style.display = 'block';
+		} else if (questionType === '3') {
+			shortAnswerFields.style.display = 'block';
+		}
+	}
+
+	window.onload = function() {
+		updateFormFields(); // 페이지 로딩 시 입력 필드 업데이트
+	}
 </script>
 </head>
 <body>
-<form name='form_test' action='test_ok.jsp' method='post' onsubmit="return validateForm()">
+<form name='form_test' action='test_ok.jsp' method='post' onsubmit="return validateForm()" enctype="multipart/form-data">
 <input type='hidden' name='mode' value='insert' >
 문제 등록하기
 	<table border='1'>
 		<tr>
-			<td>문제</td>
-			<td><input type='text' id="tb_test_name" name='tb_test_name'></td>
+			<td>문제 유형</td>
+			<td>
+				<select id="questionType" name="questionType" onchange="updateFormFields()">
+					<option value="1">4지 선다형</option>
+					<option value="2">진위형(ox)</option>
+					<option value="3">주관식</option>
+				</select>
+			</td>
 		</tr>
 		<tr>
-			<td>보기</td>
-			<td>
-				1.<input type='text' id='tb_test_sub_1' name='tb_test_sub_1'><input type='checkbox' name='dab_1' value="Yes"><br>
-				2.<input type='text' id='tb_test_sub_2' name='tb_test_sub_2'><input type='checkbox' name='dab_2' value="Yes"><br>
-				3.<input type='text' id='tb_test_sub_3' name='tb_test_sub_3'><input type='checkbox' name='dab_3' value="Yes"><br>
-				4.<input type='text' id='tb_test_sub_4' name='tb_test_sub_4'><input type='checkbox' name='dab_4' value="Yes"><br>
-			</td>
+				<td>문제</td>
+				<td><input type='text' id="tb_test_name" name='tb_test_name' size='100'></td>
 		</tr>
 		<tr>
 			<td>이미지</td>
 			<td><input type='file' name='image_link' enctype="multipart/form-data"></td>
 		</tr>
+		<tr>
+				<td colspan='2'>
+				<table>
+		<!-- 4지 선다형 입력 필드 -->
+		<tbody id="multipleChoiceFields">
+			<tr>
+				<td>보기</td>
+				<td>
+				1.<input type='text' id='tb_test_sub_1' name='tb_test_sub_1' size='80'><input type='checkbox' name='dab_1' value="Yes"><br>
+				2.<input type='text' id='tb_test_sub_2' name='tb_test_sub_2' size='80'><input type='checkbox' name='dab_2' value="Yes"><br>
+				3.<input type='text' id='tb_test_sub_3' name='tb_test_sub_3' size='80'><input type='checkbox' name='dab_3' value="Yes"><br>
+				4.<input type='text' id='tb_test_sub_4' name='tb_test_sub_4' size='80'><input type='checkbox' name='dab_4' value="Yes"><br>
+			</td>
+		</tr>
+		</tbody>
+		<!-- 진위형(ox) 입력 필드 -->
+		<tbody id="trueFalseFields" style="display:none;">
+			<tr>
+				<td>정답</td>
+				<td>
+					<label><input type='radio' name='trueFalseAnswer' value="true">O</label>
+					<label><input type='radio' name='trueFalseAnswer' value="false">X</label>
+				</td>
+			</tr>
+		</tbody>
+		<!-- 주관식 입력 필드 -->
+		<tbody id="shortAnswerFields" style="display:none;">
+			<tr>
+				<td>핵심단어</td>
+				<td><input type='text' name='shortAnswer' size='80'></td>
+			</tr>
+		</tbody>
+		<!-- 공통 입력 필드 (예: 이미지, 힌트 등) -->
+		</table>
+		</td>
+		</tr>
+
 		<tr>
 			<td>흰트</td>
 			<td><input type='text' name='hint'></td>
