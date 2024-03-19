@@ -69,7 +69,7 @@
 </script>
 </head>
 <body>
-<form name='form_test' action='test_ok.jsp' method='post' onsubmit="return validateForm()" enctype="multipart/form-data">
+<form name='form_test' action='test_ok.jsp' method='post' onsubmit="return validateForm()" >
 <input type='hidden' name='mode' value='insert' >
 문제 등록하기
 	<table border='1'>
@@ -111,8 +111,8 @@
 			<tr>
 				<td>정답</td>
 				<td>
-					<label><input type='radio' name='trueFalseAnswer' value="true">O</label>
-					<label><input type='radio' name='trueFalseAnswer' value="false">X</label>
+					<label><input type='radio' name='trueFalseAnswer' value="Yes">O</label>
+					<label><input type='radio' name='trueFalseAnswer' value="No">X</label>
 				</td>
 			</tr>
 		</tbody>
