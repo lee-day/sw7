@@ -18,11 +18,8 @@
 <table border="1">
   <thead>
     <tr>
-      <th>출제자</th>
       <th>문제</th>
-      <th>힌트</th>
-      <th>보기</th>
-      <th>정답여부</th>
+      <th>힌트(출제자)</th>
       <th>학습모듈</th>
     </tr>
   </thead>
@@ -52,30 +49,39 @@
                          "ORDER BY tb_test.seq ASC, DBMS_RANDOM.VALUE";
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
-
+            int count_number=1;
             while(rs.next()) {
+            	
+            	String bogi="";
                 String currentSeq = rs.getString("seq");
                 if (!currentSeq.equals(prevSeq)) {
+                	count_number=1;
                     // seq 값이 변경되었을 때만 문제 정보를 출력
     %>
                 <tr>
-                    <td><%= rs.getString("출제자") %></td>
-                    <td><%= rs.getString("문제") %></td>
-                    <td><%= rs.getString("힌트") %></td>
-                    <td colspan="2"><!-- 보기와 정답여부는 아래에 출력됩니다. --></td>
+                	<td>문제: <%= rs.getString("문제") %></td>   
+                    <td><%= rs.getString("힌트") %>(<%= rs.getString("출제자") %>)</td>
                     <td><%= rs.getString("학습모듈") %></td>
                 </tr>
     <%
                 }
                 // 보기와 정답 여부 출력
+                if(count_number==1){
+                	bogi="① "+rs.getString("보기");
+                }else if(count_number==2){
+                	bogi="② "+rs.getString("보기");
+                }else if(count_number==3){
+                	bogi="③ "+rs.getString("보기");
+                }else if(count_number==4){
+                	bogi="④ "+rs.getString("보기");
+                }
+                count_number=count_number+1;
     %>
                 <tr>
-                    <td colspan="3"><!-- 문제 정보 생략 --></td>
-                    <td colspan="3"><%= rs.getString("보기") %></td>
+                    <td colspan="2"><%= bogi %></td>
                     <td>
-                        <button onclick="checkAnswer('<%= rs.getString("정답여부") %>')">정답 확인</button>
+                        <button onclick="checkAnswer('<%= rs.getString("정답여부") %>')">정답</button>
                     </td>
-                    <td><!-- 학습모듈 정보 생략 --></td>
                 </tr>
     <%
                 prevSeq = currentSeq; // 이전 seq 값을 현재로 업데이트
