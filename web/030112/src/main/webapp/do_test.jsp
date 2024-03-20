@@ -23,6 +23,11 @@
                 alert('틀렸습니다.');
             }
         }
+     	// 연결형 답안 확인 함수
+        function checkAnswer4(userAnswer, correctAnswer) {
+        	let message = userAnswer === correctAnswer ? '정답입니다!' : '틀렸습니다.';
+            alert(message);
+        }
     </script>
 </head>
 <body>
@@ -46,6 +51,8 @@
         Statement stmt = null;
         ResultSet rs = null;
         PreparedStatement pstmt = null;
+        ResultSet rs_link = null;
+        PreparedStatement pstmt_link = null;
         String prevSeq = ""; // 이전 문제의 seq 값을 저장하기 위한 변수
         try {
             conn = Utill.getConnection(); // 데이터베이스 연결을 설정합니다.
@@ -53,18 +60,22 @@
                          "tb_member.name as 출제자, " +
                          "tb_test.name AS 문제, " +
                          "tb_test.hint AS 힌트, " +
+                         "tb_test_sub.seq AS tb_test_sub_seq, " +
                          "tb_test_sub.name AS 보기, " +
-                         "tb_test_sub.dab AS 정답여부, " +
+                         "tb_test_sub.dab AS 정답여부, " +                      
+                         "tb_test_sub.SEQ_TB_TEST_SUB AS 연결형답, " +
                          "tb_test.questionType AS 문제형태, " +
                          "tb_ncs.name AS 학습모듈 " +
                          "FROM tb_test " +
-                         "JOIN tb_test_sub ON tb_test.seq = tb_test_sub.seq_tb_test " +
-                         "JOIN tb_member ON tb_test.id_tb_member = tb_member.id " +
-                         "JOIN tb_ncs ON tb_test.seq_tb_ncs = tb_ncs.seq " +
+                         "LEFT JOIN tb_test_sub ON tb_test.seq = tb_test_sub.seq_tb_test " +
+                         "LEFT JOIN tb_member ON tb_test.id_tb_member = tb_member.id " +
+                         "LEFT JOIN tb_ncs ON tb_test.seq_tb_ncs = tb_ncs.seq " +
+                         "WHERE tb_test_sub.SEQ_TB_TEST_SUB IS NULL " +
                          "ORDER BY tb_test.seq ASC, DBMS_RANDOM.VALUE";
             
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
+           // out.println(sql);
             int count_number=1;
             while(rs.next()) {
             	
@@ -138,8 +149,64 @@
 					        <button onclick="checkAnswer3('answer_<%= rs.getString("seq") %>', '<%= rs.getString("보기") %>')">정답 확인</button>
 					    </td>
 					</tr>
-	    			<%	            	
-	            	}
+					<% 
+					    }else if(questionType==4){
+					        // 연결형 문제
+					        String links = "";
+					        String currentSeq = rs.getString("seq");
+					        if (!currentSeq.equals(prevSeq)) {
+					            // seq 값이 변경되었을 때만 문제 정보를 출력
+					%>
+					<tr>
+					    <td><b>문제: <%= rs.getString("문제") %></b></td>
+					    <td><%= rs.getString("힌트") %>(<%= rs.getString("출제자") %>)</td>
+					    <td><%= rs.getString("학습모듈") %></td>
+					</tr>
+					<%
+					        }
+					        // 보기 출력
+					        links = count_number + ". " + rs.getString("보기");
+					        if("Yes".equals(rs.getString("정답여부"))){
+					            // 답이 'Yes'인 경우, 보기만 출력
+					%>
+					<tr>
+					    <td ><%= links %></td>
+					    <td colspan="2">
+					    <% 
+						String sql_link = "SELECT seq," +
+											 " tb_test_sub.name AS 보기, " +
+					                         " tb_test_sub.dab AS 정답여부, " +
+					                         " tb_test_sub.SEQ_TB_TEST_SUB AS 연결형답 " +
+				                         " FROM tb_test_sub " +
+				                         " WHERE "+ 
+				                         	"tb_test_sub.SEQ_TB_TEST='" + currentSeq +"'"+
+				                         	" AND tb_test_sub.SEQ_TB_TEST_SUB is not null" +
+				                         " ORDER BY DBMS_RANDOM.VALUE";
+            
+            			pstmt_link = conn.prepareStatement(sql_link);
+            			//out.println(sql_link);	
+           				rs_link = pstmt_link.executeQuery();
+			           // out.println(sql);
+			            while(rs_link.next()) {
+			            %>
+						<label>
+				            <input type='radio' name='answer_link_<%= rs.getString("tb_test_sub_seq") %>' value='<%= rs.getString("tb_test_sub_seq") %>'> <%= rs_link.getString("보기") %><%=rs_link.getString("연결형답")%>
+				        </label>
+						<%
+					        }
+					    %>
+					    
+					     <button onclick="checkAnswer4(document.querySelector('input[name=answer_link_<%= rs.getString("tb_test_sub_seq") %>]:checked').value,'<%= rs_link.getString("연결형답") %>')">정답 확인</button>
+					    </td>
+					</tr>
+					<%
+					    
+					        }
+					        prevSeq = currentSeq; // 이전 seq 값을 현재로 업데이트
+					        count_number++;
+					    }
+
+
             }
         } catch (Exception e) {
             e.printStackTrace();

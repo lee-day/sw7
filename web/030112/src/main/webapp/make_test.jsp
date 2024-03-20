@@ -43,28 +43,48 @@
 		
 	}
 	function updateFormFields() {
-		var questionType = document.getElementById('questionType').value;
-		var multipleChoiceFields = document.getElementById('multipleChoiceFields');
-		var trueFalseFields = document.getElementById('trueFalseFields');
-		var shortAnswerFields = document.getElementById('shortAnswerFields');
+	    var questionType = document.getElementById('questionType').value;
+	    var multipleChoiceFields = document.getElementById('multipleChoiceFields');
+	    var trueFalseFields = document.getElementById('trueFalseFields');
+	    var shortAnswerFields = document.getElementById('shortAnswerFields');
+	    var linkAnswerFields = document.getElementById('linkAnswerFields');
+	    var linkCountRow = document.getElementById('linkCountRow'); // 연결가능 수 선택 <tr>에 대한 참조
 
-		// 모든 입력 필드를 숨깁니다.
-		multipleChoiceFields.style.display = 'none';
-		trueFalseFields.style.display = 'none';
-		shortAnswerFields.style.display = 'none';
+	    // 모든 입력 필드를 숨깁니다.
+	    multipleChoiceFields.style.display = 'none';
+	    trueFalseFields.style.display = 'none';
+	    shortAnswerFields.style.display = 'none';
+	    linkAnswerFields.style.display = 'none';
+	    linkCountRow.style.display = 'none'; // 연결 가능 수 선택 옵션을 숨깁니다.
 
-		// 선택된 문제 유형에 따라 해당 입력 필드를 표시합니다.
-		if (questionType === '1') {
-			multipleChoiceFields.style.display = 'block';
-		} else if (questionType === '2') {
-			trueFalseFields.style.display = 'block';
-		} else if (questionType === '3') {
-			shortAnswerFields.style.display = 'block';
-		}
+	    // 선택된 문제 유형에 따라 해당 입력 필드를 표시합니다.
+	    if (questionType === '1') {
+	        multipleChoiceFields.style.display = 'block';
+	    } else if (questionType === '2') {
+	        trueFalseFields.style.display = 'block';
+	    } else if (questionType === '3') {
+	        shortAnswerFields.style.display = 'block';
+	    } else if (questionType === '4') {
+	        linkAnswerFields.style.display = 'block';
+	        linkCountRow.style.display = 'table-row'; // "연결형"이 선택되었을 때만 연결 가능 수 선택 옵션을 보이게 합니다.
+	        updateLinkAnswerFields(); // 연결형 문제 입력 필드 업데이트
+	    }
+	}
+
+	function updateLinkAnswerFields() {
+	    var linkCount = document.getElementById('linkCount').value; // 연결 가능 수를 가져옵니다.
+	    // 1에서 4까지의 모든 연결형 입력 필드를 숨깁니다.
+	    for (var i = 1; i <= 4; i++) {
+	        document.getElementById('linkField_' + i).style.display = 'none';
+	    }
+	    // 선택된 연결 가능 수에 따라 해당 입력 필드를 보여줍니다.
+	    for (var i = 1; i <= linkCount; i++) {
+	        document.getElementById('linkField_' + i).style.display = 'block';
+	    }
 	}
 
 	window.onload = function() {
-		updateFormFields(); // 페이지 로딩 시 입력 필드 업데이트
+	    updateFormFields(); // 페이지 로딩 시 입력 필드 업데이트
 	}
 </script>
 </head>
@@ -80,6 +100,7 @@
 					<option value="1">4지 선다형</option>
 					<option value="2">진위형(ox)</option>
 					<option value="3">주관식</option>
+					<option value="4">연결형</option>
 				</select>
 			</td>
 		</tr>
@@ -121,6 +142,36 @@
 			<tr>
 				<td>핵심단어</td>
 				<td><input type='text' name='shortAnswer' size='80'></td>
+			</tr>
+		</tbody>
+		<!-- 연결형 입력 필드 -->
+		<tbody id="linkAnswerFields" style="display:none;">
+			<tr id="linkCountRow" style="display:none;">
+				<td>연결가능 수</td>
+				<td>
+				<select id="linkCount" onchange="updateLinkAnswerFields()">
+				    <option value="1">1</option>
+				    <option value="2">2</option>
+				    <option value="3">3</option>
+				    <option value="4">4</option>
+				</select>
+				</td>
+			</tr>
+			<tr id="linkField_1" style="display:none;">
+				    <td>1</td>
+				    <td>보기<input type='text' name='tb_test_link_str_1' size='10'>답<input type='text' name='tb_test_link_end_1' size='10'></td>
+			</tr>
+			<tr id="linkField_2" style="display:none;">
+				    <td>2</td>
+				    <td>보기<input type='text' name='tb_test_link_str_2' size='10'>답<input type='text' name='tb_test_link_end_2' size='10'></td>
+			</tr>
+			<tr id="linkField_3" style="display:none;">
+				    <td>3</td>
+				    <td>보기<input type='text' name='tb_test_link_str_3' size='10'>답<input type='text' name='tb_test_link_end_3' size='10'></td>
+			</tr>
+			<tr id="linkField_4" style="display:none;">
+				    <td>4</td>
+				    <td>보기<input type='text' name='tb_test_link_str_4' size='10'>답<input type='text' name='tb_test_link_end_4' size='10'></td>
 			</tr>
 		</tbody>
 		<!-- 공통 입력 필드 (예: 이미지, 힌트 등) -->

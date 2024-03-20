@@ -26,26 +26,37 @@ FROM
 
 //문제 관련 테이블을 연결해서 답(번호를 랜덤하게 섞어보여주기)
 SELECT 
+	tb_test.seq AS "tb_test_seq",
+	tb_test_sub.seq AS "tb_test_sub_seq",
     tb_member.name as "출제자",
     tb_test.name AS "문제",
     tb_test.hint AS "힌트",
     tb_test_sub.name AS "보기",
     tb_test_sub.dab AS "정답여부",
+    tb_test_sub.SEQ_TB_TEST_SUB AS "연결형답",
     tb_ncs.name AS "학습모듈"
 FROM 
     tb_test
-JOIN
+LEFT JOIN
     tb_test_sub ON tb_test.seq = tb_test_sub.seq_tb_test
-JOIN
-    tb_member on tb_test.id_tb_member = tb_member.id
-JOIN
-    tb_ncs on tb_test.seq_tb_ncs = tb_ncs.seq
+LEFT JOIN
+    tb_member ON tb_test.id_tb_member = tb_member.id
+LEFT JOIN
+    tb_ncs ON tb_test.seq_tb_ncs = tb_ncs.seq
+WHERE 
+	tb_test_sub.SEQ_TB_TEST_SUB IS NULL 
 ORDER BY 
 	tb_test.seq asc,
 	DBMS_RANDOM.VALUE;
     
-select *from tb_ncs    
-    
+select * from tb_ncs    
+
+
+select seq,name,hint,id_tb_member from tb_test
+select * from tb_test_sub
+select * from tb_ncs
+
+SELECT tb_test_sub.name AS 보기, tb_test_sub.dab AS 정답여부, tb_test_sub.SEQ_TB_TEST_SUB AS 연결형답 FROM tb_test_sub WHERE tb_test_sub.SEQ_TB_TEST='1' AND tb_test_sub.SEQ_TB_TEST_SUB is not null ORDER BY DBMS_RANDOM.VALUE
 /*
   Create table tb_member(
  	id varchar2(20) NOT NULL,
@@ -54,7 +65,14 @@ select *from tb_ncs
  	num number(2) NOT NULL,
  	constraint tb_member_pk Primary key(id)
  )
- 
+  <button onclick="
+  	checkAnswer4(
+  		document.querySelector(
+  			'input[name=answer_link_<%= rs.getString("tb_test_sub_seq") %>]:checked'
+  			).value, 
+  		<%= rs_link.getString("연결형답") %>
+  	)
+  ">정답 확인</button>
  
 
  Create table tb_test(
