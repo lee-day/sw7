@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자식 창</title>
+</head>
+<body>
+    <h2>자식 창</h2>
+    <button onclick="sendData()">부모 창에 데이터 전송</button>
+
+    <script>
+        // 부모 창으로 데이터를 전송하는 함수
+        function sendData() {
+            var dataToSend = "전달할 데이터"; // 전송할 데이터
+            // 부모 창의 receiveData 함수 호출하여 데이터 전송
+            window.opener.receiveData(dataToSend);
+        }
+    </script>
+</body>
+</html>

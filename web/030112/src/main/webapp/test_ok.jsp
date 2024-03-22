@@ -69,7 +69,7 @@
 		    			+"'"+seq_count+"',"
 		    			+"'"+tb_test_sub+"',"
 		    			+"'"+dab+"',"
-				    	+"'')";
+				    	+"'','')";
 		                out.println(sql);	
 					    stmt.executeUpdate(sql);
 		            }
@@ -89,7 +89,7 @@
 		    			+"'"+seq_count+"',"
 		    			+"'진위형 문제',"
 		    			+"'"+trueFalseAnswer+"',"
-						+"'')";
+		    			+"'','')";
 			    out.println(sql);	
 			    stmt.executeUpdate(sql);
 		    }else if("3".equals(questionType)){
@@ -107,7 +107,7 @@
 		    			+"'"+seq_count+"',"
 		    			+"'"+shortAnswer+"',"
 		    			+"'',"
-						+"'')";
+		    			+"'','')";
 			    out.println(sql);	
 			    stmt.executeUpdate(sql);	
 		    }else if("4".equals(questionType)){	
@@ -129,7 +129,7 @@
 				    			+"'"+seq_count+"',"
 				    			+"'"+tb_test_link_str+"',"
 				    			+"'Yes',"
-						    	+"'')";
+				    			+"'','')";
 		                out.println(sql);	
 					    stmt.executeUpdate(sql);
 		            }
@@ -146,7 +146,7 @@
 				    			+"'"+seq_count+"',"
 				    			+"'"+tb_test_link_end+"',"
 				    			+"'No',"
-						    	+"'"+seq_count_sub+"')";
+						    	+"'"+seq_count_sub+"','')";
 		                out.println(sql);	
 					    stmt.executeUpdate(sql);
 		            }

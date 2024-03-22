@@ -57,6 +57,9 @@ select * from tb_test_sub
 select * from tb_ncs
 
 SELECT tb_test_sub.name AS 보기, tb_test_sub.dab AS 정답여부, tb_test_sub.SEQ_TB_TEST_SUB AS 연결형답 FROM tb_test_sub WHERE tb_test_sub.SEQ_TB_TEST='1' AND tb_test_sub.SEQ_TB_TEST_SUB is not null ORDER BY DBMS_RANDOM.VALUE
+
+SELECT tb_test.seq AS seq, tb_member.name as 출제자, tb_test.name AS 문제, tb_test.hint AS 힌트, tb_test_sub.seq AS tb_test_sub_seq, tb_test_sub.name AS 보기, tb_test_sub.dab AS 정답여부, tb_test_sub.SEQ_TB_TEST_SUB AS 연결형답, tb_test.questionType AS 문제형태, tb_ncs.name AS 학습모듈 FROM tb_test LEFT JOIN tb_test_sub ON tb_test.seq = tb_test_sub.seq_tb_test LEFT JOIN tb_member ON tb_test.id_tb_member = tb_member.id LEFT JOIN tb_ncs ON tb_test.seq_tb_ncs = tb_ncs.seq WHERE tb_test_sub.SEQ_TB_TEST_SUB IS NULL ORDER BY tb_test.seq ASC, DBMS_RANDOM.VALUE
+SELECT seq, tb_test_sub.name AS 보기, tb_test_sub.dab AS 정답여부, tb_test_sub.SEQ_TB_TEST_SUB AS 연결형답 FROM tb_test_sub WHERE tb_test_sub.SEQ_TB_TEST='1' AND tb_test_sub.SEQ_TB_TEST_SUB is not null ORDER BY DBMS_RANDOM.VALUE
 /*
   Create table tb_member(
  	id varchar2(20) NOT NULL,
@@ -82,7 +85,6 @@ SELECT tb_test_sub.name AS 보기, tb_test_sub.dab AS 정답여부, tb_test_sub.
 	hint varchar2(255) NOT NULL,
 	seq_tb_ncs number(5) NOT NULL,
 	id_tb_member varchar2(20) NOT NULL,
-	image_data BLOB,
 	questionType number(1) NOT NULL,
  	constraint tb_test_pk Primary key(seq)
  );
@@ -94,6 +96,24 @@ SELECT tb_test_sub.name AS 보기, tb_test_sub.dab AS 정답여부, tb_test_sub.
  	file_link varchar2(255) NOT NULL,
   	constraint tb_ncs_pk Primary key(seq)
  );
+ 
+ 
+ Create table tb_image(
+ 	seq number(5) NOT NULL,
+ 	name varchar2(255) NOT NULL,
+ 	image_data BLOB,
+  	constraint tb_image_pk Primary key(seq)
+ );
+ 
+ CREATE TABLE uploaded_files (
+    id number(5) NOT NULL,
+    file_name VARCHAR2(255),
+    file_size NUMBER,
+    upload_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    constraint uploaded_files_pk PRIMARY KEY (id)
+);
+ 
+ desc tb_image
  
   SEQ NAME        FILE_LINK         
  --- ----------- ----------------- 
@@ -113,14 +133,15 @@ CREATE TABLE tb_test_sub(
     seq number(5) NOT NULL,
     seq_tb_test number(5) NOT NULL,
     name varchar2(255) NOT NULL,
-    dab varchar2(3) DEFAULT 'No'
+    dab varchar2(3) DEFAULT 'No',
+    image_link varchar2(255) NOT NULL
 );
 ALTER TABLE tb_test_sub ADD CONSTRAINT tb_test_sub_pk PRIMARY KEY(seq);
 ALTER TABLE tb_test_sub ADD CONSTRAINT dab_check CHECK (dab IN ('Yes', 'No'));
  
 
 
- 
+ desc tb_test_sub
  
             
 */

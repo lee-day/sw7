@@ -9,6 +9,15 @@
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="style.css">
 <script>
+	//부모 창에서 자식 창으로부터 데이터를 받는 함수
+	function receiveDataFromChild(event) {
+	    // 받은 데이터를 부모 창의 입력 필드에 설정
+	    document.getElementById("image_link").value = event.data;
+	}
+	
+	// 자식 창으로부터 데이터를 받는 이벤트 리스너 등록
+	window.addEventListener("message", receiveDataFromChild, false);
+	
 	function validateForm(){
 		var questionType = document.getElementById('questionType').value;
 		var tb_test_name= document.getElementById('tb_test_name').value;
@@ -86,6 +95,7 @@
 	window.onload = function() {
 	    updateFormFields(); // 페이지 로딩 시 입력 필드 업데이트
 	}
+
 </script>
 </head>
 <body>
@@ -110,7 +120,9 @@
 		</tr>
 		<tr>
 			<td>이미지</td>
-			<td><input type='file' name='image_link' enctype="multipart/form-data"></td>
+			<td><input type="text" id="image_link" name="image_link" readonly>
+			<a href="up.html" target="_blank">자식 창 열기</a>
+			</td>
 		</tr>
 		<tr>
 				<td colspan='2'>

@@ -75,20 +75,23 @@
             
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
-           // out.println(sql);
+          // out.println(sql);
             int count_number=1;
+            int test_number=0;
             while(rs.next()) {
-            	
+   
             	int questionType=rs.getInt("문제형태");
-            	if(questionType==1){	
+            	if(questionType==1){
+            		
 	            	String bogi="";
 	                String currentSeq = rs.getString("seq");
 	                if (!currentSeq.equals(prevSeq)) {
+	                	test_number=test_number+1;
 	                	count_number=1;
 	                    // seq 값이 변경되었을 때만 문제 정보를 출력
 	    %>
-	                <tr>
-	                	<td>문제: <%= rs.getString("문제") %></td>   
+	                <tr bgcolor='skyblue'>
+	                	<td><%=test_number%>번 문제: <%=rs.getString("문제") %></td>   
 	                    <td><%= rs.getString("힌트") %>(<%= rs.getString("출제자") %>)</td>
 	                    <td><%= rs.getString("학습모듈") %></td>
 	                </tr>
@@ -115,9 +118,10 @@
 	    <%
 	                prevSeq = currentSeq; // 이전 seq 값을 현재로 업데이트
 	            }else if(questionType==2){
+	            	test_number=test_number+1;
 	        	    %>
-	                <tr>
-	                	<td>문제: <%= rs.getString("문제") %></td>   
+	                <tr bgcolor='skyblue'>
+	                	<td><%=test_number%>번 문제: <%=rs.getString("문제") %></td>
 	                    <td><%= rs.getString("힌트") %>(<%= rs.getString("출제자") %>)</td>
 	                    <td><%= rs.getString("학습모듈") %></td>
 	                </tr>
@@ -133,9 +137,10 @@
 					</tr>
 	    			<%	            	
 	        	   }else if(questionType==3){
+	        		   test_number=test_number+1;
 	        	    %>
-	               <tr>
-					    <td>문제: <%= rs.getString("문제") %></td>
+	               <tr bgcolor='skyblue'>
+					    <td><%=test_number%>번 문제: <%=rs.getString("문제") %></td>
 					    <td><%= rs.getString("힌트") %>(<%= rs.getString("출제자") %>)</td>
 					    <td><%= rs.getString("학습모듈") %></td>
 					</tr>
@@ -155,10 +160,11 @@
 					        String links = "";
 					        String currentSeq = rs.getString("seq");
 					        if (!currentSeq.equals(prevSeq)) {
+					        	test_number=test_number+1;
 					            // seq 값이 변경되었을 때만 문제 정보를 출력
 					%>
-					<tr>
-					    <td><b>문제: <%= rs.getString("문제") %></b></td>
+					<tr  bgcolor='skyblue'>
+					    <td><%=test_number%>번 문제: <%=rs.getString("문제") %></td>
 					    <td><%= rs.getString("힌트") %>(<%= rs.getString("출제자") %>)</td>
 					    <td><%= rs.getString("학습모듈") %></td>
 					</tr>
@@ -196,7 +202,6 @@
 					        }
 					    %>
 					    
-					     <button onclick="checkAnswer4(document.querySelector('input[name=answer_link_<%= rs.getString("tb_test_sub_seq") %>]:checked').value,'<%= rs_link.getString("연결형답") %>')">정답 확인</button>
 					    </td>
 					</tr>
 					<%
