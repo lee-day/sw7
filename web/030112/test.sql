@@ -91,6 +91,9 @@ SELECT seq, tb_test_sub.name AS 보기, tb_test_sub.dab AS 정답여부, tb_test
   ">정답 확인</button>
  
 
+select * from tb_ncs
+
+
  Create table tb_test(
  	seq number(5) NOT NULL,
  	name varchar2(255) NOT NULL,
@@ -99,8 +102,24 @@ SELECT seq, tb_test_sub.name AS 보기, tb_test_sub.dab AS 정답여부, tb_test
 	seq_tb_ncs number(5) NOT NULL,
 	id_tb_member varchar2(20) NOT NULL,
 	questionType number(1) NOT NULL,
+	BOGI	CLOB,
+	TYPE	NUMBER(1),
  	constraint tb_test_pk Primary key(seq)
  );
+ 
+ 
+ SQL> desc tb_test;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SEQ                                       NOT NULL NUMBER(5)
+ NAME                                      NOT NULL VARCHAR2(255)
+ IMAGE_LINK                                         VARCHAR2(255)
+ HINT                                               VARCHAR2(255)
+ SEQ_TB_NCS                                NOT NULL NUMBER(5)
+ ID_TB_MEMBER                              NOT NULL VARCHAR2(20)
+ QUESTIONTYPE                                       NUMBER
+ BOGI                                               CLOB
+ TYPE                                               NUMBER(1)
  
  
  Create table tb_ncs(
