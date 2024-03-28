@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>b.html</title>
+</head>
+<body>
+    <h2>자식 페이지 (b.html)</h2>
+    <form id="myForm" enctype="multipart/form-data" method="post">
+        <input type="file" name="data" />
+        <button type="button" onclick="submitData()">전송</button>
+    </form>
+
+    <script>
+    function submitData() {
+        var formData = new FormData(document.getElementById("myForm"));
+        fetch("c.jsp", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            window.opener.receiveDataFromChild(data);
+            window.close(); // 데이터 전송 후 b.html 페이지 닫기
+        })
+        .catch(error => console.error('Error:', error));
+	    }
+	</script>
+</body>
+</html>

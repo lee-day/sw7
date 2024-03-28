@@ -58,24 +58,27 @@
             conn = Utill.getConnection(); // 데이터베이스 연결을 설정합니다.
             String sql = "SELECT tb_test.seq AS seq, " +
                          "tb_member.name as 출제자, " +
+                         "tb_member.id as 출제자id, " +
                          "tb_test.name AS 문제, " +
+                         "tb_test.image_link AS 이미지, " +
                          "tb_test.hint AS 힌트, " +
                          "tb_test_sub.seq AS tb_test_sub_seq, " +
                          "tb_test_sub.name AS 보기, " +
                          "tb_test_sub.dab AS 정답여부, " +                      
                          "tb_test_sub.SEQ_TB_TEST_SUB AS 연결형답, " +
                          "tb_test.questionType AS 문제형태, " +
+                         "tb_test.bogi AS 문제보기, " +
                          "tb_ncs.name AS 학습모듈 " +
                          "FROM tb_test " +
                          "LEFT JOIN tb_test_sub ON tb_test.seq = tb_test_sub.seq_tb_test " +
                          "LEFT JOIN tb_member ON tb_test.id_tb_member = tb_member.id " +
                          "LEFT JOIN tb_ncs ON tb_test.seq_tb_ncs = tb_ncs.seq " +
                          "WHERE tb_test_sub.SEQ_TB_TEST_SUB IS NULL " +
-                         "ORDER BY tb_test.seq ASC, DBMS_RANDOM.VALUE";
+                         "ORDER BY tb_test.seq DESC, DBMS_RANDOM.VALUE";
             
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
-          // out.println(sql);
+          	//out.println(sql);
             int count_number=1;
             int test_number=0;
             while(rs.next()) {
@@ -92,9 +95,27 @@
 	    %>
 	                <tr bgcolor='skyblue'>
 	                	<td><%=test_number%>번 문제: <%=rs.getString("문제") %></td>   
-	                    <td><%= rs.getString("힌트") %>(<%= rs.getString("출제자") %>)</td>
+	                    <td><%= rs.getString("힌트") %>(<%= rs.getString("출제자") %>)
+	                    <%if (session != null && session.getAttribute("userId").equals(rs.getString("출제자id"))) {%>
+	                	<a href='test_ok.jsp?mode=delete&seq=<%=rs.getString("seq")%>'>x</a>
+	                	<%}%>
+	                    </td>
 	                    <td><%= rs.getString("학습모듈") %></td>
 	                </tr>
+	                <%if(rs.getString("이미지") != null) {%>
+	                <tr>
+					    <td colspan="3">
+					        <img src='uploads/<%=rs.getString("이미지")%>' width='400px'>
+					    </td>
+					</tr>
+					<%}%>
+					<%if(rs.getString("문제보기") != null) {%>
+	                <tr>
+					    <td colspan="3" bgcolor="#505050">
+					        <font color='#ffffff'><%=rs.getString("문제보기")%></font>
+					    </td>
+					</tr>
+					<%}%>
 	    <%
 	                }
 	                // 보기와 정답 여부 출력
@@ -122,9 +143,27 @@
 	        	    %>
 	                <tr bgcolor='skyblue'>
 	                	<td><%=test_number%>번 문제: <%=rs.getString("문제") %></td>
-	                    <td><%= rs.getString("힌트") %>(<%= rs.getString("출제자") %>)</td>
+	                    <td><%= rs.getString("힌트") %>(<%= rs.getString("출제자") %>)
+	                    <%if (session != null && session.getAttribute("userId").equals(rs.getString("출제자id"))) {%>
+	                	<a href='test_ok.jsp?mode=delete&seq=<%=rs.getString("seq")%>'>x</a>
+	                	<%}%>
+	                    </td>
 	                    <td><%= rs.getString("학습모듈") %></td>
 	                </tr>
+	                <%if(rs.getString("이미지") != null) {%>
+	                <tr>
+					    <td colspan="3">
+					        <img src='uploads/<%=rs.getString("이미지")%>' width='400px'>
+					    </td>
+					</tr>
+					<%}%>
+					<%if(rs.getString("문제보기") != null) {%>
+	                <tr>
+					    <td colspan="3" bgcolor="#505050">
+					        <font color='#ffffff'><%=rs.getString("문제보기")%></font>
+					    </td>
+					</tr>
+					<%}%>
 	               	<tr>
 					    <td colspan="2">
 					        <label><input type='radio' name='answer_<%= rs.getString("seq") %>' value="O">O</label>
@@ -141,9 +180,27 @@
 	        	    %>
 	               <tr bgcolor='skyblue'>
 					    <td><%=test_number%>번 문제: <%=rs.getString("문제") %></td>
-					    <td><%= rs.getString("힌트") %>(<%= rs.getString("출제자") %>)</td>
+					    <td><%= rs.getString("힌트") %>(<%= rs.getString("출제자") %>)
+	                    <%if (session != null && session.getAttribute("userId").equals(rs.getString("출제자id"))) {%>
+	                	<a href='test_ok.jsp?mode=delete&seq=<%=rs.getString("seq")%>'>x</a>
+	                	<%}%>
+	                    </td>
 					    <td><%= rs.getString("학습모듈") %></td>
 					</tr>
+					<%if(rs.getString("이미지") != null) {%>
+	                <tr>
+					    <td colspan="3">
+					        <img src='uploads/<%=rs.getString("이미지")%>' width='400px'>
+					    </td>
+					</tr>
+					<%}%>
+					<%if(rs.getString("문제보기") != null) {%>
+	                <tr>
+					    <td colspan="3" bgcolor="#505050">
+					        <font color='#ffffff'><%=rs.getString("문제보기")%></font>
+					    </td>
+					</tr>
+					<%}%>
 					<tr>
 					    <td colspan="2">
 					        <!-- 사용자 답안 입력 필드 -->
@@ -164,10 +221,28 @@
 					            // seq 값이 변경되었을 때만 문제 정보를 출력
 					%>
 					<tr  bgcolor='skyblue'>
-					    <td><%=test_number%>번 문제: <%=rs.getString("문제") %></td>
-					    <td><%= rs.getString("힌트") %>(<%= rs.getString("출제자") %>)</td>
+					    <td width='600px'><%=test_number%>번 문제: <%=rs.getString("문제") %></td>
+					    <td width='150px'><%= rs.getString("힌트") %>(<%= rs.getString("출제자") %>)
+	                    <%if (session != null && session.getAttribute("userId").equals(rs.getString("출제자id"))) {%>
+	                	<a href='test_ok.jsp?mode=delete&seq=<%=rs.getString("seq")%>'>x</a>
+	                	<%}%>
+	                    </td>
 					    <td><%= rs.getString("학습모듈") %></td>
 					</tr>
+					<%if(rs.getString("이미지") != null) {%>
+	                <tr>
+					    <td colspan="3">
+					        <img src='uploads/<%=rs.getString("이미지")%>' width='400px'>
+					    </td>
+					</tr>
+					<%}%>
+					<%if(rs.getString("문제보기") != null) {%>
+	                <tr>
+					    <td colspan="3" bgcolor="#505050">
+					        <font color='#ffffff'><%=rs.getString("문제보기")%></font>
+					    </td>
+					</tr>
+					<%}%>
 					<%
 					        }
 					        // 보기 출력
@@ -196,8 +271,8 @@
 			            while(rs_link.next()) {
 			            %>
 						<label>
-				            <input type='radio' name='answer_link_<%= rs.getString("tb_test_sub_seq") %>' value='<%= rs.getString("tb_test_sub_seq") %>'> <%= rs_link.getString("보기") %><%=rs_link.getString("연결형답")%>
-				        </label>
+				            <input type='radio' name='answer_link_<%= rs.getString("tb_test_sub_seq") %>' value='<%= rs.getString("tb_test_sub_seq") %>'> <%= rs_link.getString("보기") %>
+				        </label><br>
 						<%
 					        }
 					    %>

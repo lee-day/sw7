@@ -95,6 +95,17 @@
 	window.onload = function() {
 	    updateFormFields(); // 페이지 로딩 시 입력 필드 업데이트
 	}
+	
+    function openBPage() {
+        // B 페이지를 새 창으로 열기
+        window.open("b.html", "_blank", "width=600,height=400");
+    }
+
+    // 부모 창에서 자식 창으로 데이터를 받는 함수
+    function receiveDataFromChild(data) {
+        // 받은 데이터를 입력 필드에 표시
+        document.getElementById("image_link").value = data;
+    }	
 
 </script>
 </head>
@@ -121,7 +132,12 @@
 		<tr>
 			<td>이미지</td>
 			<td><input type="text" id="image_link" name="image_link" readonly>
-			<a href="up.html" target="_blank">자식 창 열기</a>
+			<a href="javascript:void(0)" onclick="openBPage()">이미지 등록하기</a>
+			</td>
+		</tr>
+		<tr>
+			<td>[보기]</td>
+			<td><input type="text" id="bogi" name="bogi" size='100'>
 			</td>
 		</tr>
 		<tr>
@@ -153,7 +169,12 @@
 		<tbody id="shortAnswerFields" style="display:none;">
 			<tr>
 				<td>핵심단어</td>
-				<td><input type='text' name='shortAnswer' size='80'></td>
+				<td>답:<input type='text' name='shortAnswer' size='80'><br>
+				1. 핵심단어가 1개인 경우 단일 입력 ex) 응용프로그램<br>
+				2. 핵심단어가 2개 이상이고 모두 포함되어야 하는 경우 and 입력 ex) 응용프로그램 and 어플리케이션배포 and 과정평가<br>
+				3. 핵심단어가 2개 이상이고 어느 한가지만 포함되도 되는 경우 or 입력 ex) 응용프로그램 or 어플리케이션배포 or 과정평가<br>
+				4. 핵심단어가 2개 이상이고 모두 포함되어야 하는 단어와 어느 한가지만 포함되도 되는 단어가 복수로 있는 경우<br>
+				 or  and () 입력 ex) (응용프로그램 or 어플리케이션배포) and 과정평가</td>
 			</tr>
 		</tbody>
 		<!-- 연결형 입력 필드 -->

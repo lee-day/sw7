@@ -1,3 +1,12 @@
+SELECT 
+    tb_member.name as "출제자",
+    tb_test.count(*)
+FROM 
+    tb_test
+JOIN    
+    tb_member on tb_test.id_tb_member = tb_member.id
+group by
+	tb_test.seq
 
 
 
@@ -15,9 +24,13 @@ JOIN
 JOIN    
     tb_member on tb_test.id_tb_member = tb_member.id;
 
- 
+desc uploaded_files 
     
-    
+
+
+SELECT tb_test.seq AS seq, tb_member.name as 출제자, tb_test.name AS 문제, tb_test.image_link AS 이미지, tb_test.hint AS 힌트, tb_test_sub.seq AS tb_test_sub_seq, tb_test_sub.name AS 보기, tb_test_sub.dab AS 정답여부, tb_test_sub.SEQ_TB_TEST_SUB AS 연결형답, tb_test.questionType AS 문제형태, tb_ncs.name AS 학습모듈 FROM tb_test LEFT JOIN tb_test_sub ON tb_test.seq = tb_test_sub.seq_tb_test LEFT JOIN tb_member ON tb_test.id_tb_member = tb_member.id LEFT JOIN tb_ncs ON tb_test.seq_tb_ncs = tb_ncs.seq WHERE tb_test_sub.SEQ_TB_TEST_SUB IS NULL ORDER BY tb_test.seq ASC, DBMS_RANDOM.VALUE
+
+
 SELECT 
 	* 
 FROM 

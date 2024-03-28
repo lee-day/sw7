@@ -6,17 +6,11 @@
 	request.setCharacterEncoding("UTF-8");
 	String userId = (String) session.getAttribute("userId");
  	String mode=request.getParameter("mode");
- 	String tb_test_name=request.getParameter("tb_test_name");
- 	String image_link=request.getParameter("image_link");	
- 	String hint=request.getParameter("hint");	
- 	String tb_ncs=request.getParameter("tb_ncs");
- 	String questionType=request.getParameter("questionType");
- 	String image_data="";
- 	Connection conn=null;
- 	Statement stmt=null;
- 	String callback = ""; 
  	out.println(mode);
  	try{
+ 		Connection conn=null;
+	 	Statement stmt=null;
+	 	String callback = "";
  		conn = Utill.getConnection(); 										// 데이터베이스 연결을 설정합니다.
 	    stmt = conn.createStatement(); 		// SQL 명령어를 실행하기 위한 Statement 객체를 생성합니다.
 	    String sql = ""; 	
@@ -26,6 +20,14 @@
 	    out.println(mode);
     	switch(mode){
     	case "insert":
+    	 	String tb_test_name=request.getParameter("tb_test_name");
+    	 	String image_link=request.getParameter("image_link");	
+    	 	String hint=request.getParameter("hint");	
+    	 	String tb_ncs=request.getParameter("tb_ncs");
+    	 	String questionType=request.getParameter("questionType");
+    	 	String bogi=request.getParameter("bogi");
+    	 	String image_data="";
+    	 	 
 
     		sql_count=" select " 
     			+ 	"	NVL(max(seq)+1,1) as max_count"
@@ -44,8 +46,8 @@
 	    			+"'"+hint+"',"
 	    			+"'"+tb_ncs+"',"
 	    			+"'"+userId+"',"
-	    	    	+"'"+image_data+"',"
-	    	    	+"'"+questionType+ "')";
+	    	    	+"'"+questionType+"',"
+	    	    	+"'"+bogi+ "','2')";
     		out.println(sql);
 	    	stmt.executeUpdate(sql);
 		    if("1".equals(questionType)){		    		
@@ -67,9 +69,9 @@
 		                sql=" insert into tb_test_sub values("
 		    			+"'"+seq_count_sub+"',"
 		    			+"'"+seq_count+"',"
-		    			+"'"+tb_test_sub+"',"
 		    			+"'"+dab+"',"
-				    	+"'','')";
+				    	+"'','',"
+				    	+"'"+tb_test_sub+"')";
 		                out.println(sql);	
 					    stmt.executeUpdate(sql);
 		            }
@@ -87,9 +89,9 @@
 			    sql=" insert into tb_test_sub values("
 		    			+"'"+seq_count_sub+"',"
 		    			+"'"+seq_count+"',"
-		    			+"'진위형 문제',"
 		    			+"'"+trueFalseAnswer+"',"
-		    			+"'','')";
+		    			+"'','',"
+						+"'진위형 문제')";
 			    out.println(sql);	
 			    stmt.executeUpdate(sql);
 		    }else if("3".equals(questionType)){
@@ -105,9 +107,9 @@
 			    sql=" insert into tb_test_sub values("
 		    			+"'"+seq_count_sub+"',"
 		    			+"'"+seq_count+"',"
-		    			+"'"+shortAnswer+"',"
 		    			+"'',"
-		    			+"'','')";
+		    			+"'','',"
+						+"'"+shortAnswer+"')";
 			    out.println(sql);	
 			    stmt.executeUpdate(sql);	
 		    }else if("4".equals(questionType)){	
@@ -127,9 +129,9 @@
 		                sql=" insert into tb_test_sub values("
 				    			+"'"+seq_count_sub+"',"
 				    			+"'"+seq_count+"',"
-				    			+"'"+tb_test_link_str+"',"
 				    			+"'Yes',"
-				    			+"'','')";
+				    			+"'','',"
+								+"'"+tb_test_link_str+"')";
 		                out.println(sql);	
 					    stmt.executeUpdate(sql);
 		            }
@@ -144,21 +146,34 @@
 					    sql=" insert into tb_test_sub values("
 				    			+"'"+seq_count_sub_link+"',"
 				    			+"'"+seq_count+"',"
-				    			+"'"+tb_test_link_end+"',"
 				    			+"'No',"
-						    	+"'"+seq_count_sub+"','')";
+						    	+"'"+seq_count_sub+"','',"
+								+"'"+tb_test_link_end+"')";
 		                out.println(sql);	
 					    stmt.executeUpdate(sql);
 		            }
 	    			
 		        }
 		    }
+
 		break;
+    	case "delete":  
+    		String seq=request.getParameter("seq");
+		    sql=" delete from tb_test where"
+	    			+" seq='"+seq+"'";
+            out.println(sql);	
+		    stmt.executeUpdate(sql);
+		    sql=" delete from tb_test_sub where"
+	    			+" seq_tb_test='"+seq+"'";
+            out.println(sql);	
+		    stmt.executeUpdate(sql);
+    		
+    	break;	
     	}
 }catch(Exception e) {
 e.printStackTrace();												// 예외가 발생하면 스택 트레이스를 출력합니다.
 }
-//response.sendRedirect("main.jsp");	
+response.sendRedirect("main.jsp");	
  	 
  	
  %>

@@ -6,6 +6,21 @@
 <meta charset="UTF-8">
 <title>과정평가형 필기 문제은행</title>
 <link rel="stylesheet" type="text/css" href="style.css">
+
+<script>
+document.getElementById('section_page').addEventListener('load', function() {
+    var iframe = document.getElementById('section_page');
+    try {
+        var body = iframe.contentWindow.document.body;
+        var html = iframe.contentWindow.document.documentElement;
+        var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+        iframe.style.height = height + 'px';
+    } catch (e) {
+        console.log('Cannot resize iframe: ', e);
+    }
+});
+</script>
+
 </head>
 <body>
 <header>
@@ -42,7 +57,7 @@
 	<a href="main.jsp" target="section_page">홈으로</a>
 </nav>
 <section>
-	<iframe name="section_page" src="main.jsp"></iframe>
+	<iframe name="section_page" id="section_page" src="main.jsp"></iframe>
 </section>
 <footer>
 	세명컴고

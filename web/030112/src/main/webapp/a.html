@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>a.html</title>
+</head>
+<body>
+    <h2>부모 페이지 (a.html)</h2>
+    <input type="text" id="image_link" name="image_link" readonly>
+    
+    <script>
+        function openBPage() {
+            // B 페이지를 새 창으로 열기
+            window.open("b.html", "_blank", "width=600,height=400");
+        }
+
+        // 부모 창에서 자식 창으로 데이터를 받는 함수
+        function receiveDataFromChild(data) {
+            // 받은 데이터를 입력 필드에 표시
+            document.getElementById("image_link").value = data;
+        }
+    </script>
+     <a href="javascript:void(0)" onclick="openBPage()">B 페이지 열기</a>
+</body>
+</html>
+
+
