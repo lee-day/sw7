@@ -169,9 +169,12 @@
     	 	 questionType=request.getParameter("questionType");
     	 	 bogi=request.getParameter("bogi");
     	 	 image_data="";
+    	 	String image_link_update;
     	 	seq =request.getParameter("seq");
     		out.println(questionType);
-
+    		if(image_link != "null"){
+    			image_link_update=image_link;
+    		}
     		sql=" update tb_test set"
 	    			+" name='"+tb_test_name+"',"
 	    			+" image_link='"+image_link+"',"
