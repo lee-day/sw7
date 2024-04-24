@@ -13,10 +13,14 @@
 	 	String callback = "";
  		conn = Utill.getConnection(); 										// 데이터베이스 연결을 설정합니다.
 	    stmt = conn.createStatement(); 		// SQL 명령어를 실행하기 위한 Statement 객체를 생성합니다.
-	    String sql = ""; 	
+	    String sql = "";
+	    String seq = null;
 	    String sql_count = ""; 
 	    String seq_count_sub ="";
 	    String seq_count_sub_link="";
+	    String tb_test_sub ="";
+	    String tb_test_sub_seq = "";
+        String dab = "";
 	    out.println(mode);
     	switch(mode){
     	case "insert":
@@ -53,8 +57,8 @@
 		    if("1".equals(questionType)){		    		
 		        // 보기와 답변 처리를 위한 반복문
 		        for(int i = 1; i <= 4; i++){
-		            String tb_test_sub = request.getParameter("tb_test_sub_" + i);
-		            String dab = request.getParameter("dab_" + i);
+		            tb_test_sub = request.getParameter("tb_test_sub_" + i);
+		            dab = request.getParameter("dab_" + i);
 		            dab = (dab == null || dab.isEmpty()) ? "No" : "Yes"; // 답변 여부 초기화
 
 		            // seq_count_sub 값 조회
@@ -157,16 +161,74 @@
 		    }
 
 		break;
+    	case "update":
+    		 tb_test_name=request.getParameter("tb_test_name");
+    	 	 image_link=request.getParameter("image_link");	
+    	 	 hint=request.getParameter("hint");	
+    	 	 tb_ncs=request.getParameter("tb_ncs");
+    	 	 questionType=request.getParameter("questionType");
+    	 	 bogi=request.getParameter("bogi");
+    	 	 image_data="";
+    	 	seq =request.getParameter("seq");
+    		out.println(questionType);
+
+    		sql=" update tb_test set"
+	    			+" name='"+tb_test_name+"',"
+	    			+" image_link='"+image_link+"',"
+	    			+" hint='"+hint+"',"
+	    			+" seq_tb_ncs='"+tb_ncs+"',"
+	    	    	+" questionType='"+questionType+"',"
+	    	    	+" bogi='"+bogi+ "' "
+	    	    	+" where seq= " + seq ;
+    		out.println(sql);
+	    	stmt.executeUpdate(sql);
+		    if("1".equals(questionType)){	
+		    	for(int i = 1; i <= 4; i++){
+		    		tb_test_sub = request.getParameter("tb_test_sub_" + i);
+		    		tb_test_sub_seq = request.getParameter("tb_test_sub_seq_" + i);
+		            dab = request.getParameter("dab_" + i);
+		            dab = (dab == null || dab.isEmpty()) ? "No" : "Yes"; // 답변 여부 초기화
+			    	seq_count_sub_link=" update tb_test_sub set"
+			    			+" name='"+tb_test_sub+"',"
+			    			+" dab='"+dab+"'"
+			    	    	+" where seq_tb_test= " + seq 
+			    			+" and seq= " + tb_test_sub_seq ;
+		    		//out.println(seq_count_sub_link);
+			    	stmt.executeUpdate(seq_count_sub_link);
+		    	}
+		    }else if("2".equals(questionType)){	
+		    	dab=request.getParameter("trueFalseAnswer");	
+		    	seq_count_sub_link=" update tb_test_sub set"
+		    			+" dab='"+dab+"'"
+		    	    	+" where seq_tb_test= " + seq;
+	    		//out.println(seq_count_sub_link);
+		    	stmt.executeUpdate(seq_count_sub_link);
+		    }else if("3".equals(questionType)){	
+		    	 	String shortAnswer=request.getParameter("shortAnswer");	
+				    sql=" update tb_test_sub set"
+			    			+" name='"+shortAnswer+"'"
+			    	    	+" where seq_tb_test= " + seq;	
+				   // out.println(sql);	
+				    stmt.executeUpdate(sql);			    	
+		    }else if("4".equals(questionType)){	
+	    	 	String shortAnswer=request.getParameter("shortAnswer");	
+			    sql=" update tb_test_sub set"
+		    			+" name='"+shortAnswer+"'"
+		    	    	+" where seq_tb_test= " + seq;	
+			   // out.println(sql);	
+			    stmt.executeUpdate(sql);			    	
+	   		}
+    	break;
     	case "delete":  
-    		String seq=request.getParameter("seq");
+    		seq=request.getParameter("seq");
 		    sql=" delete from tb_test where"
 	    			+" seq='"+seq+"'";
             out.println(sql);	
 		    stmt.executeUpdate(sql);
 		    sql=" delete from tb_test_sub where"
 	    			+" seq_tb_test='"+seq+"'";
-            out.println(sql);	
-		    stmt.executeUpdate(sql);
+            //out.println(sql);	
+		    //stmt.executeUpdate(sql);
     		
     	break;	
     	}

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>문제 풀기2</title>
+    <title>문제 풀기</title>
     <script>
         // 정답 확인 함수
         function checkAnswer(isCorrect, elementId) {
@@ -31,72 +31,7 @@
     </script>
 </head>
 <body>
-<h1>출제 현황</h1>
 
-<table border="1">
-    <tr bgcolor='skyblue'>
-      <td>출제자</td>
-      <td>모듈</td>
-      <td>총문제</td>
-      <td>선다형</td>
-      <td>진위형</td>
-      <td>주관식</td>
-      <td>연결형</td>
-    </tr>
-    <%@ page import="java.sql.*" %>
-    <%@ page import="DBPKG.Utill" %>
-    <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-    <% 
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs_link = null;
-        PreparedStatement pstmt_link = null;
-        String prevSeq = ""; // 이전 문제의 seq 값을 저장하기 위한 변수
-        try {
-            conn = Utill.getConnection(); // 데이터베이스 연결을 설정합니다.
-            String sql_total = " SELECT "+
-							" tb_member.name AS 출제자, "+
-							" tb_ncs.name AS 모듈, "+
-							" COUNT(*) AS 총문제, "+
-							" NVL(SUM(CASE WHEN tb_test.questionType = 1 THEN 1 ELSE 0 END), 0) AS 선다형, "+
-							" NVL(SUM(CASE WHEN tb_test.questionType = 2 THEN 1 ELSE 0 END), 0) AS 진위형, "+
-							" NVL(SUM(CASE WHEN tb_test.questionType = 3 THEN 1 ELSE 0 END), 0) AS 주관식, "+
-							" NVL(SUM(CASE WHEN tb_test.questionType = 4 THEN 1 ELSE 0 END), 0) AS 연결형 "+
-						" FROM "+ 
-		            	    " tb_test "+
-		            	" JOIN "+
-		            	    " tb_member ON tb_test.id_tb_member = tb_member.id "+
-		            	" JOIN "+
-		            	    " tb_ncs ON tb_test.seq_tb_ncs = tb_ncs.seq "+
-		            	" WHERE "+ 
-		            	    " tb_test.TYPE = 2 "+
-		            	" GROUP BY "+
-		            	    " tb_member.name, tb_ncs.name "+
-		            	" order BY "+
-				            " tb_member.name, tb_ncs.name ";
-            //out.println(sql_total);
-            pstmt = conn.prepareStatement(sql_total);
-            rs = pstmt.executeQuery();
-          	
-            int count_number=1;
-            int test_number=0;
-            while(rs.next()) {    
-	    	%>
-	                <tr >
-	                	<td><%= rs.getString("출제자") %></td>   
-	                    <td><%= rs.getString("모듈") %></td>   
-	                    <td><%= rs.getInt("총문제") %></td>   
-	                    <td <% if(rs.getInt("선다형") < 4){ out.println("bgcolor=yellow"); } %>><%= rs.getInt("선다형") %></td>  
-	                    <td <% if(rs.getInt("진위형") < 2){ out.println("bgcolor=yellow"); } %>><%= rs.getInt("진위형") %></td>  
-	                    <td <% if(rs.getInt("주관식") < 2){ out.println("bgcolor=yellow"); } %>><%= rs.getInt("주관식") %></td>  
-	                    <td <% if(rs.getInt("연결형") < 2){ out.println("bgcolor=yellow"); } %>><%= rs.getInt("연결형") %></td>  
-	                </tr>
-			<%} %>
-</table>
-
-<br>
 <h1>문제 풀기</h1>
 
 <table border="1">
@@ -108,7 +43,22 @@
     </tr>
   </thead>
   <tbody>
+    <%@ page import="java.sql.*" %>
+    <%@ page import="DBPKG.Utill" %>
+    <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     <% 
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs_link = null;
+        PreparedStatement pstmt_link = null;
+        String prevSeq = ""; // 이전 문제의 seq 값을 저장하기 위한 변수
+        String userName = (String) session.getAttribute("userName");
+        String userId = (String) session.getAttribute("userId");
+        
+        try {
+            conn = Utill.getConnection(); // 데이터베이스 연결을 설정합니다.
             String sql = "SELECT tb_test.seq AS seq, " +
                          "tb_member.name as 출제자, " +
                          "tb_member.id as 출제자id, " +
@@ -129,13 +79,14 @@
                          "LEFT JOIN tb_ncs ON tb_test.seq_tb_ncs = tb_ncs.seq " +
                          "WHERE tb_test_sub.SEQ_TB_TEST_SUB IS NULL " +
                          "and tb_test.type =2 " +
+                         "and tb_test.id_tb_member='" + userId +"' "+
                          "ORDER BY tb_test.seq DESC, DBMS_RANDOM.VALUE";
-            
+           // out.println(sql);
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
           	//out.println(sql);
-            count_number=1;
-            test_number=0;
+            int count_number=1;
+            int test_number=0;
             while(rs.next()) {
    
             	int questionType=rs.getInt("문제형태");
@@ -145,12 +96,14 @@
 	                String currentSeq = rs.getString("seq");
 	                if (!currentSeq.equals(prevSeq)) {
 	                	test_number=test_number+1;
-	                	count_number=1;
 	                    // seq 값이 변경되었을 때만 문제 정보를 출력
 	    %>
 	                <tr bgcolor='skyblue'>
-	                	<td><%=test_number%>번 문제: <%=rs.getString("문제") %></td>   
+	                	<td><a href='make_test.jsp?mode=update&seq=<%=rs.getString("seq")%>'><%=test_number%>번 문제: <%=rs.getString("문제") %></a></td>   
 	                    <td><%= rs.getString("힌트") %>(<%= rs.getString("출제자") %>)
+	                    <%if (session != null && session.getAttribute("userId").equals(rs.getString("출제자id"))) {%>
+	                	<a href='test_ok.jsp?mode=delete&seq=<%=rs.getString("seq")%>'>x</a>
+	                	<%}%>
 	                    </td>
 	                    <td><%= rs.getString("학습모듈") %></td>
 	                </tr>
@@ -181,6 +134,7 @@
 	                	bogi="④ "+rs.getString("보기");
 	                }else{
 	                	count_number=0;
+	                	bogi="① "+rs.getString("보기");
 	                }
 	                count_number=count_number+1;
 	    %>
@@ -196,7 +150,7 @@
 	            	test_number=test_number+1;
 	        	    %>
 	                <tr bgcolor='skyblue'>
-	                	<td><%=test_number%>번 문제: <%=rs.getString("문제") %></td>
+	                	<td><a href='make_test.jsp?mode=update&seq=<%=rs.getString("seq")%>'><%=test_number%>번 문제: <%=rs.getString("문제") %></a></td>
 	                    <td><%= rs.getString("힌트") %>(<%= rs.getString("출제자") %>)
 	                    <%if (session != null && session.getAttribute("userId").equals(rs.getString("출제자id"))) {%>
 	                	<a href='test_ok.jsp?mode=delete&seq=<%=rs.getString("seq")%>'>x</a>
@@ -233,7 +187,7 @@
 	        		   test_number=test_number+1;
 	        	    %>
 	               <tr bgcolor='skyblue'>
-					    <td><%=test_number%>번 문제: <%=rs.getString("문제") %></td>
+					    <td><a href='make_test.jsp?mode=update&seq=<%=rs.getString("seq")%>'><%=test_number%>번 문제: <%=rs.getString("문제") %></a></td>
 					    <td><%= rs.getString("힌트") %>(<%= rs.getString("출제자") %>)
 	                    <%if (session != null && session.getAttribute("userId").equals(rs.getString("출제자id"))) {%>
 	                	<a href='test_ok.jsp?mode=delete&seq=<%=rs.getString("seq")%>'>x</a>
@@ -276,7 +230,7 @@
 					            // seq 값이 변경되었을 때만 문제 정보를 출력
 					%>
 					<tr  bgcolor='skyblue'>
-					    <td width='600px'><%=test_number%>번 문제: <%=rs.getString("문제") %></td>
+					    <td width='600px'><a href='make_test.jsp?mode=update&seq=<%=rs.getString("seq")%>'><%=test_number%>번 문제: <%=rs.getString("문제") %></a></td>
 					    <td width='150px'><%= rs.getString("힌트") %>(<%= rs.getString("출제자") %>)
 	                    <%if (session != null && session.getAttribute("userId").equals(rs.getString("출제자id"))) {%>
 	                	<a href='test_ok.jsp?mode=delete&seq=<%=rs.getString("seq")%>'>x</a>

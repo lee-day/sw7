@@ -1,0 +1,96 @@
+@charset "UTF-8";
+
+/*전체 영역 설정 시작*/
+html, body {
+	width: 95%;													/* 페이지의 너비를 부모 요소의 95%로 설정합니다. */
+	height: 100vh;												/* 페이지의 높이를 뷰포트의 높이(화면 높이)와 같게 설정 */
+	margin : 0;													/* 페이지 주변의 여백을 없앱니다. */
+	padding :0;													/* 페이지 내부의 여백을 없앱니다. */
+}
+
+h4 {
+	text-align: center;											/* h4 태그의 텍스트를 중앙 정렬합니다. */
+}
+
+table {
+	margin: 0 auto; 											/* 테이블을 수평 중앙에 배치합니다. */
+	text-align: left; 											/* 테이블 내 텍스트를 왼쪽 정렬합니다. */
+}
+/*전체 영역 설정 끝*/
+
+
+/* header 영역 설정 시작 */
+header {
+	width: 100%;												/* 헤더의 너비를 부모 요소의 100%로 설정합니다. */
+	padding: 15px;												/* 헤더의 내부 여백을 설정합니다. */
+	text-align: center;											/* 헤더의 텍스트를 중앙 정렬합니다. */
+	background: linear-gradient(to left, #0100FF, #0054FF);	/* 헤더 배경에 그라디언트 색상 적용 */
+	color: #FFFFFF;											/* 헤더 내 텍스트 색상을 흰색으로 설정합니다. */
+}
+/* header 영역 설정 끝 */
+
+
+/* nav 영역 설정 시작 */
+nav {
+	width: 100%; 												/* 내비게이션의 너비를 부모 요소의 100%로 설정합니다. */
+	padding: 15px; 												/* 내비게이션의 내부 여백을 설정합니다. */
+	background: #8041D9; 										/* 내비게이션 배경색 설정 */
+}
+
+nav > ul {
+	padding: 0; 												/* 내비게이션 내부 ul의 내부 여백을 없앱니다. */
+	margin: 0; 													/* 내비게이션 내부 ul의 외부 여백을 없앱니다. */
+	width: 100%; 												/* 내비게이션 내부 ul의 너비를 100%로 설정합니다. */
+}
+
+nav > ul > li {
+	display: inline-block; 										/* 리스트 항목을 인라인 블록으로 표시합니다. */
+	width: 170px; 												/* 각 리스트 항목의 너비를 설정합니다. */
+	text-align: center; 										/* 리스트 항목 내 텍스트를 중앙 정렬합니다. */
+}
+
+nav > ul > li > a {
+	text-decoration: none; 										/* 링크에 밑줄을 없앱니다. */
+	color: #FFFFFF; 											/* 링크 색상을 흰색으로 설정합니다. */
+}
+
+.nav_home_a {
+	text-decoration: underline; 								/* 특정 클래스(.nav_home_a)를 가진 링크에 밑줄을 추가합니다. */
+}
+/* nav 영역 설정 끝 */
+
+
+
+/* section 영역 설정 시작 */
+section {
+	width: 100%;												/* 섹션의 너비를 부모 요소의 100%로 설정합니다. */
+	height: auto;												/* 섹션의 높이를 자동으로 설정합니다. */
+	min-height: 400px;											/* 섹션의 최소 높이를 설정합니다. */
+	text-align: center;											/* 섹션 내 텍스트를 중앙 정렬합니다. */
+	padding: 15px;												/* 섹션의 내부 여백을 설정합니다. */
+	background: #EAEAEA;										/* 섹션의 배경색을 설정합니다. */
+}
+
+IFRAME {
+	HEIGHT: 400px; 												/* iframe의 높이를 설정합니다. */
+	width: 100%; 												/* iframe의 너비를 부모 요소의 100%로 설정합니다. */
+	text-align: center; 										/* iframe 내 텍스트를 중앙 정렬합니다. */
+	BORDER: 0; 											 		/* iframe의 테두리를 없앱니다. */
+	DISPLAY: BLOCK; 											/* iframe을 블록 요소로 표시합니다. */
+	OVERFLOW: hidden; 											/* iframe의 내용이 넘칠 경우 숨깁니다. */
+}
+/* section 영역 설정 끝 */
+
+
+/* footer 영역 설정 시작 */
+footer {
+	width: 100%; 												/* 푸터의 너비를 부모 요소의 100%로 설정합니다. */
+	padding: 15px; 												/* 푸터의 내부 여백을 설정합니다. */
+	background: linear-gradient(to left, #0054FF, #3DB7CC);	/* 푸터 배경에 그라디언트 색상 적용 */
+	text-align:center; 											/* 푸터의 텍스트를 중앙 정렬합니다. */
+}
+
+footer > h3 {
+	color: #ffffff; 											/* 푸터 내 h3 태그의 텍스트 색상을 흰색으로 설정합니다. */
+}
+/* footer 영역 설정 끝 */

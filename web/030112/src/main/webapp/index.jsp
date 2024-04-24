@@ -19,6 +19,18 @@ document.getElementById('section_page').addEventListener('load', function() {
         console.log('Cannot resize iframe: ', e);
     }
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    var doTestLink = document.getElementById('doTestLink');
+    doTestLink.addEventListener('click', function() {
+        console.log('문제 풀기 클릭됨'); // 클릭 이벤트 발생 확인을 위한 로그
+        var iframe = document.getElementById('section_page');
+        console.log('iframe 높이 변경 전'); // 높이 변경 전 상태 확인을 위한 로그
+        iframe.style.height = '2000px';
+        console.log('iframe 높이 변경 후'); // 높이 변경 후 상태 확인을 위한 로그
+    });
+});
+
 </script>
 
 </head>
@@ -49,8 +61,10 @@ document.getElementById('section_page').addEventListener('load', function() {
 </form>
 </header>
 <nav>
-	<a href="do_test.jsp" target="section_page">문제풀기</a>
+	<a href="do_test.jsp" target="section_page" id="doTestLink">전체문제</a>
+	<a href="test_play.jsp" target="section_page" id="doTestLink">문제풀기</a>
 <% if (session != null && session.getAttribute("userName") != null) {%>
+	<a href="my_test.jsp" target="section_page">내가 등록한 문제</a>
 	<a href="make_test.jsp" target="section_page">문제등록하기</a>
 <%} %>	
 	<a href="point_test.jsp" target="section_page">점수관리</a>

@@ -2,33 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>문제 풀기2</title>
-    <script>
-        // 정답 확인 함수
-        function checkAnswer(isCorrect, elementId) {
-            let message = isCorrect === 'Yes' ? '정답입니다!' : '틀렸습니다.';
-            alert(message);
-        }
-        //ox 답안 확인 함수 
-        function checkAnswer2(userAnswer, correctAnswer) {
-            let message = userAnswer === correctAnswer ? '정답입니다!' : '틀렸습니다.';
-            alert(message);
-        }
-     	// 주관식 답안 확인 함수
-        function checkAnswer3(inputId, correctWord) {
-            var userAnswer = document.getElementById(inputId).value;
-            if (userAnswer.includes(correctWord)) {
-                alert('정답입니다!');
-            } else {
-                alert('틀렸습니다.');
-            }
-        }
-     	// 연결형 답안 확인 함수
-        function checkAnswer4(userAnswer, correctAnswer) {
-        	let message = userAnswer === correctAnswer ? '정답입니다!' : '틀렸습니다.';
-            alert(message);
-        }
-    </script>
+    <title>랜덤 문제 풀기</title>     
 </head>
 <body>
 <h1>출제 현황</h1>

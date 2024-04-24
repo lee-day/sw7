@@ -36,6 +36,59 @@ SELECT
 FROM 
 	tb_test;
 
+	
+	
+SELECT 
+    tb_member.name AS "출제자",
+    tb_ncs.name AS "모듈",
+    COUNT(*) AS "총문제",
+    NVL(SUM(CASE WHEN tb_test.questionType = 1 THEN 1 ELSE 0 END), 0) AS "4지선다형",
+    NVL(SUM(CASE WHEN tb_test.questionType = 2 THEN 1 ELSE 0 END), 0) AS "진위형",
+    NVL(SUM(CASE WHEN tb_test.questionType = 3 THEN 1 ELSE 0 END), 0) AS "주관식",
+    NVL(SUM(CASE WHEN tb_test.questionType = 4 THEN 1 ELSE 0 END), 0) AS "연결형"
+FROM 
+    tb_test
+JOIN
+    tb_member ON tb_test.id_tb_member = tb_member.id
+JOIN
+    tb_ncs ON tb_test.seq_tb_ncs = tb_ncs.seq
+WHERE 
+    tb_test.TYPE = 2
+GROUP BY
+    tb_member.name, tb_ncs.name;
+
+    
+   select * from tb_ncs;
+	
+   
+   SELECT tb_test.seq AS seq, tb_member.name as 출제자, tb_member.id as 출제자id, tb_test.name AS 문제, tb_test.image_link AS 이미지, tb_test.hint AS 힌트, tb_test_sub.seq AS tb_test_sub_seq, tb_test_sub.name AS 보기, tb_test_sub.dab AS 정답여부, tb_test_sub.SEQ_TB_TEST_SUB AS 연결형답, tb_test.questionType AS 문제형태, tb_test.bogi AS 문제보기, tb_test_sub.image_link AS 보기_이미지, tb_ncs.name AS 학습모듈 FROM tb_test LEFT JOIN tb_test_sub ON tb_test.seq = tb_test_sub.seq_tb_test LEFT JOIN tb_member ON tb_test.id_tb_member = tb_member.id LEFT JOIN tb_ncs ON tb_test.seq_tb_ncs = tb_ncs.seq WHERE tb_test_sub.SEQ_TB_TEST_SUB IS NULL and tb_test.type =2 and tb_test.id_tb_member='lee' and tb_test.seq='378'
+   
+   SELECT tb_test.seq AS seq, tb_member.name as 출제자, tb_member.id as 출제자id, tb_test.name AS 문제, tb_test.image_link AS 이미지, tb_test.hint AS 힌트, tb_test_sub.seq AS tb_test_sub_seq, tb_test_sub.name AS 보기, tb_test_sub.dab AS 정답여부, tb_test_sub.SEQ_TB_TEST_SUB AS 연결형답, tb_test.questionType AS 문제형태, tb_test.bogi AS 문제보기, tb_test_sub.image_link AS 보기_이미지, tb_ncs.name AS 학습모듈 FROM tb_test LEFT JOIN tb_test_sub ON tb_test.seq = tb_test_sub.seq_tb_test LEFT JOIN tb_member ON tb_test.id_tb_member = tb_member.id LEFT JOIN tb_ncs ON tb_test.seq_tb_ncs = tb_ncs.seq WHERE tb_test_sub.SEQ_TB_TEST_SUB IS NULL and tb_test.type =2 and tb_test.id_tb_member='lee' and tb_test.seq='378'
+	
+   commit;
+    update tb_test set name='선다 문제수정', image_link='null', hint='null수정', seq_tb_ncs='11', questionType='1', bogi='보기보기보기보기보기수정' where seq= 2
+   
+SELECT 
+    tb_member.name AS "출제자",
+    COUNT(*) AS "총문제",
+    NVL(SUM(CASE WHEN tb_test.questionType = 1 THEN 1 ELSE 0 END), 0) AS "4지선다형",
+    NVL(SUM(CASE WHEN tb_test.questionType = 2 THEN 1 ELSE 0 END), 0) AS "진위형",
+    NVL(SUM(CASE WHEN tb_test.questionType = 3 THEN 1 ELSE 0 END), 0) AS "주관식",
+    NVL(SUM(CASE WHEN tb_test.questionType = 4 THEN 1 ELSE 0 END), 0) AS "연결형"
+FROM 
+    tb_test
+JOIN
+    tb_member ON tb_test.id_tb_member = tb_member.id 
+GROUP BY
+    tb_member.name;
+	
+	
+	
+	
+	
+	
+	
+	
 
 //문제 관련 테이블을 연결해서 답(번호를 랜덤하게 섞어보여주기)
 SELECT 
@@ -63,7 +116,13 @@ ORDER BY
 	DBMS_RANDOM.VALUE;
     
 select * from tb_ncs    
+xommit;
 
+
+
+SELECT tb_member.name AS 출제자 tb_ncs.name AS 모듈 COUNT(*) AS 총문제 NVL(SUM(CASE WHEN tb_test.questionType = 1 THEN 1 ELSE 0 END), 0) AS 선다형 NVL(SUM(CASE WHEN tb_test.questionType = 2 THEN 1 ELSE 0 END), 0) AS 진위형 NVL(SUM(CASE WHEN tb_test.questionType = 3 THEN 1 ELSE 0 END), 0) AS 주관식 NVL(SUM(CASE WHEN tb_test.questionType = 4 THEN 1 ELSE 0 END), 0) AS 연결형 FROM tb_test JOIN tb_member ON tb_test.id_tb_member = tb_member.id JOIN tb_ncs ON tb_test.seq_tb_ncs = tb_ncs.seq WHERE tb_test.TYPE = 2 GROUP BY tb_member.name, tb_ncs.name
+
+insert into tb_ncs values('12','서버프로그램구현','https://ncs.go.kr')
 
 select seq,name,hint,id_tb_member from tb_test
 select * from tb_test_sub
